@@ -1,0 +1,182 @@
+
+start t3									 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= 	 holderIndex = 				sem = NULL		sem = NULL		sem = NULL
+locked = 0 		 locked = 0					priority = 2	priority = 1	priority = 1 
+[x,x,x,x,x]	 	 [x,x,x,x,x]		  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 0
+suspended: 
+LEDcurrentlyOn = t3
+
+
+
+
+
+
+t3 -> wait(semB)								 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = 				sem = NULL		sem = NULL		sem = NULL
+locked = 1 		 locked = 0					priority = 2	priority = 1	priority = 1 
+[x,x,x,x,x]	 	 [x,x,x,x,x]		  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 0
+suspended: 
+LEDcurrentlyOn = t3
+
+
+
+
+
+
+start t2								 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = 				sem = NULL		sem = NULL		sem = NULL
+locked = 1 		 locked = 0					priority = 2	priority = 3	priority = 1 
+[x,x,x,x,x]	 	 [x,x,x,x,x]		  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 0
+suspended: 
+LEDcurrentlyOn = t2
+
+
+
+
+
+
+t2 -> wait(semA)								 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = t2			sem = NULL		sem = NULL		sem = NULL
+locked = 1 		 locked = 1					priority = 2	priority = 3	priority = 1 
+[x,x,x,x,x]	 	 [x,x,x,x,x]		  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 0
+suspended: 
+LEDcurrentlyOn = t2
+
+
+
+
+
+
+t2 -> wait(semB)								 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = t2			sem = NULL		sem = semB		sem = NULL
+locked = 1 		 locked = 1					priority = 3	priority = 3	priority = 1 
+[t2,x,x,x,x]	 [x,x,x,x,x]			  	nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 1		blocked = 0
+											resources = 1	resources = 1	resources = 0
+suspended: t2
+LEDcurrentlyOn = t3
+
+
+
+
+
+
+start t1							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = t2			sem = NULL		sem = semB		sem = NULL
+locked = 1 		 locked = 1					priority = 3	priority = 3	priority = 4 
+[t2,x,x,x,x]	 [x,x,x,x,x]			  	nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 1		blocked = 0
+											resources = 1	resources = 1	resources = 0
+suspended: t1
+LEDcurrentlyOn = t2
+
+
+
+
+
+
+t1 -> wait(semA)							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t3 holderIndex = t2			sem = NULL		sem = semB		sem = semA
+locked = 1 		 locked = 1					priority = 4	priority = 4	priority = 4 
+[t2,t1,x,x,x]	 [t1,x,x,x,x]			  	nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 1		blocked = 2
+											resources = 1	resources = 1	resources = 0
+suspended: t2, t1
+LEDcurrentlyOn = t1
+
+
+
+
+
+
+t3 -> signal(semB)							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t2 holderIndex = t2			sem = NULL		sem = semB		sem = semA
+locked = 1 		 locked = 1					priority = 2	priority = 4	priority = 4 
+[t1,x,x,x,x]	 [t1,x,x,x,x]			  	nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 2
+											resources = 0	resources = 2	resources = 0
+suspended: t1
+LEDcurrentlyOn = t3
+
+
+
+
+
+
+t2 -> signal(semB)							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t1 holderIndex = t2			sem = NULL		sem = semB		sem = semA
+locked = 0 		 locked = 1					priority = 2	priority = 4	priority = 4 
+[x,x,x,x,x]	 	[t1,x,x,x,x]			  	nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 1
+											resources = 0	resources = 1	resources = 0
+suspended: t1
+LEDcurrentlyOn = t2
+
+
+
+
+
+
+t2 -> signal(semA)							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t1 holderIndex = t1			sem = NULL		sem = semB		sem = semA
+locked = 0 		 locked = 1					priority = 2	priority = 3	priority = 4 
+[x,x,x,x,x]	 	[x,x,x,x,x]			  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 1
+suspended: 
+LEDcurrentlyOn = t2
+
+
+
+
+
+
+t1 -> signal(semA)							 
+__________________________________________________________________________________________
+semB				semA					t3				t2				t1
+__________________________________________________________________________________________
+holderIndex	= t1 holderIndex = t1			sem = NULL		sem = semB		sem = semA
+locked = 0 		 locked = 0					priority = 2	priority = 3	priority = 4 
+[x,x,x,x,x]	 	[x,x,x,x,x]			  		nominal	= 2		nominal	= 3  	nominal = 4
+											blocked	= 0		blocked	= 0		blocked = 0
+											resources = 0	resources = 0	resources = 1
+suspended: 
+LEDcurrentlyOn = t1
